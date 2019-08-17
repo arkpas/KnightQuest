@@ -1,0 +1,42 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title>View knight</title>
+		<link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+		<script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+		<script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
+
+	</head>
+	<body>
+		<div class="backgroundDiv" align="center">
+			<p th:text="'Złoto: ' + ${playerinformation.gold}"/>
+			<table>
+				<tr>
+					<th>ID: </th>
+					<td th:text="${knight.id}"/>
+				</tr>
+				<tr>
+					<th>Imie: </th>
+					<td th:text="${knight.name}"/>
+				</tr>
+				<tr>
+					<th>Wiek: </th>
+					<td th:text="${knight.age}"/>
+				</tr>
+				<tr>
+					<th>Poziom: </th>
+					<td th:text="${knight.level}"/>
+				</tr>
+				<tr>
+					<th>Zadanie: </th>
+				<td>
+					<span th:if="${knight.quest == null}">Brak zadania <a th:href="@{/assignQuest(knightId=${knight.id})}">(przydziel)</a></span>
+					<span th:if="${knight.quest != null}" th:text="${knight.quest}"/>
+				</td>
+				</tr>
+			</table>
+			<a href="/knights"><button>Lista rycerzy</button></a>
+		</div>
+	</body>
+</html>

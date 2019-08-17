@@ -1,0 +1,33 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Add knight</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+	<script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+	<script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
+
+</head>
+<body>
+	<div class="backgroundDiv" align="center">
+		<p th:text="'Złoto: ' + ${playerinformation.gold}"/>
+        <div class="form">
+		    <form th:object="${knight}" th:action="@{/knights}" th:method="post">
+				<div class="field">
+					<label>Imie:</label>
+					<input type="text" th:field="*{name}"/>
+					<p class="errorLabel" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+				</div>
+				<div class="field">
+					<label>Wiek:</label>
+					<input type="text" th:field="*{age}"/>
+					<p class="errorLabel" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"/>
+				</div>
+				<div class="field">
+					<button type="submit">Utworz rycerza</button>
+				</div>
+		    </form>
+        </div>
+	</div>
+</body>
+</html>

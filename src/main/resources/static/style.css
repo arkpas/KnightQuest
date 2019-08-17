@@ -1,0 +1,44 @@
+
+table {
+    padding: 30px;
+    width: 500px;
+    text-align: center;
+
+}
+
+th, td {
+    border: 1px solid black;
+    background-color: lightyellow;
+    height: 30px;
+}
+
+
+thead {
+    font-weight: bold;
+}
+
+.form {
+    background-color: lightyellow;
+    border: 1px solid black;
+    width: 300px;
+    padding: 20px;
+}
+
+.field {
+    margin: 10px;
+}
+
+.backgroundDiv {
+    width: 800px;
+    background-color: lightblue;
+    margin:0 auto;
+    padding: 20px;
+
+}
+
+.errorLabel {
+    color: red;
+    font-size: 11px;
+    margin: 0;
+}
+

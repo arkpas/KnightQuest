@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+
+
+	<context:property-placeholder location="classpath:castle.properties"/>
+	<bean id="castle" class="arkpas.kursspring.domain.Castle" init-method="postConstruct" destroy-method="preDestroy" >
+		<constructor-arg index="0" name="name" type="String" value="${name:EastWatch}"/>
+		<constructor-arg index="1" name="knight" type="Knight" ref="knight"/>
+	</bean>
+
+</beans>

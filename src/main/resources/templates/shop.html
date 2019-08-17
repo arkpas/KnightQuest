@@ -1,0 +1,37 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Knights list</title>
+    <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
+    <script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/style.css}"/>
+
+</head>
+
+<body>
+    <div class="backgroundDiv" align="center">
+        <p th:text="${message}"/>
+        <table>
+            <thead>
+                <tr>
+                    <td>Nazwa</td>
+                    <td>Redukcja czasu</td>
+                    <td>Koszt</td>
+                    <td>Akcja</td>
+                </tr>
+            </thead>
+            <tbody th:each="item : ${itemList}">
+                <tr>
+                    <td th:text="${item.name}"/>
+                    <td th:text="${item.timeReduction}"/>
+                    <td th:text="${item.price}"/>
+                    <td><a th:href="@{ '/buyItem/' + ${knightId} + '/' + ${item.id} }">Kup!</a></td>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/knights}"><button>Opuść sklep</button></a>
+    </div>
+
+</body>
+</html>
