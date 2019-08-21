@@ -52,7 +52,7 @@ public class WebContextTest {
     @Before
     public void setup () {
         //questController = new QuestController(questService, knightService, timeComponent, playerInformation);
-        mockMvc = MockMvcBuilders.standaloneSetup(questController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(QuestController.class).build();
     }
 
     @Test

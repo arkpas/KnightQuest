@@ -20,7 +20,7 @@ public class ShopService {
     PlayerInformation playerInformation;
 
     public List<Item> getItems () {
-        return new ArrayList<>(itemRepository.getItems());
+        return itemRepository.getItems();
     }
 
     public String buyItem (int knightId, int itemId) {
@@ -32,6 +32,7 @@ public class ShopService {
                 if (knight.addItem(item)) {
                     playerInformation.removeGold(item.getPrice());
                     message = "Zakupiono przedmiot " + item.getName() + ".";
+                    knightService.updateKnight(knight);
                 }
                 else { message = "Masz juz ten przedmiot!"; }
             }

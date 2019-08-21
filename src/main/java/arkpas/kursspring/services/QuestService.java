@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 public class QuestService {
 	
 
-	KnightRepository knights;
-	QuestRepository quests;
+	private KnightRepository knightRepository;
+	private QuestRepository questRepository;
 	
 	private final Random rand = new Random();
 
@@ -29,31 +29,39 @@ public class QuestService {
 			int randomQuestId = rand.nextInt(notStartedQuests.size());
 
 			Quest randomQuest = notStartedQuests.get(randomQuestId);
-			Knight knight = knights.getKnight(knightId);
+			Knight knight = knightRepository.getKnight(knightId);
 			knight.setQuest(randomQuest);
 		}
 		
 	}
 
 	public List<Quest> getNotStartedQuests () {
-		return quests.getQuests().stream().filter(quest -> !quest.isStarted()).collect(Collectors.toList());
+		return questRepository.getQuests().stream().filter(quest -> !quest.isStarted()).collect(Collectors.toList());
 	}
 
 	public Quest getQuest (int id) {
-		return quests.getQuest(id);
+		return questRepository.getQuest(id);
+	}
+
+	public void updateQuest (Quest quest) {
+		questRepository.updateQuest(quest);
+	}
+
+	public void deleteQuest (Quest quest) {
+		questRepository.deleteQuest(quest);
 	}
 
 	@Autowired
 	public void setQuestRepository (QuestRepository questRepository) {
-		this.quests = questRepository;
+		this.questRepository = questRepository;
 	}
 
 	@Autowired
 	public void setKnightRepository (KnightRepository knightRepository) {
-		this.knights = knightRepository;
+		this.knightRepository = knightRepository;
 	}
 
 	public boolean isCompleted (int id) {
-		return quests.getQuest(id).isCompleted();
+		return questRepository.getQuest(id).isCompleted();
 	}
 }

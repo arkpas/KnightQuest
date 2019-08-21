@@ -1,17 +1,26 @@
 package arkpas.kursspring.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
+
+@Entity
 public class Quest {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
 	private String description;
 	private int goldReward;
 	private int length; //in seconds
 	private boolean started = false;
 	private boolean completed = false;
 	private LocalDateTime startDate;
+
+	// constructor for Hibernate
+	Quest () {}
 
 	public Quest (String description, int goldReward, int length) {
 		this.description = description;
@@ -26,7 +35,7 @@ public class Quest {
 	public boolean isStarted() { return started; }
 	public boolean isCompleted() {
 		if (completed)
-			return completed;
+			return true;
 
 		if (started) {
 			LocalDateTime now = LocalDateTime.now();
@@ -53,12 +62,5 @@ public class Quest {
 	public String toString () {
 		return description;
 	}
-
-	public void endQuest() {
-		started = false;
-		completed = false;
-		startDate = null;
-	}
-
 
 }

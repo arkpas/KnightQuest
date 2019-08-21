@@ -6,10 +6,9 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PlayerInformation {
 
-    private int gold = 0;
+    private int gold = 1000;
 
     public int getGold() { return gold; }
 

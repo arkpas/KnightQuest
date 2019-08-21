@@ -8,21 +8,15 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
-@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Profile("dev")
 public class MemoryKnightRepository implements KnightRepository {
 
 	private Map<Integer,Knight> knights = new HashMap<>();
 
-	public MemoryKnightRepository () {
-
-	}
 	@Override
 	public void createKnight (String name, int age) {
 		createKnight(new Knight(name,age));
@@ -35,8 +29,8 @@ public class MemoryKnightRepository implements KnightRepository {
 	}
 	
 	@Override
-	public Collection<Knight> getKnights () {
-		return knights.values();
+	public List<Knight> getKnights () {
+		return new ArrayList<>(knights.values());
 	}
 
 	
@@ -46,17 +40,16 @@ public class MemoryKnightRepository implements KnightRepository {
 	}
 	
 	@Override
-	public void deleteKnight (int id) {
-		knights.remove(id);
+	public void deleteKnight (Knight knight) {
+		knights.remove(knight.getId());
 	}
 
 	@Override
-	public void updateKnight(int id, Knight knight) {
-		knights.replace(id, knight);
+	public void updateKnight(Knight knight) {
+		knights.replace(knight.getId(), knight);
 	}
 
 	@PostConstruct
-	@Override
 	public void postConstruct () {
 		createKnight("Lancelot", 29);
 		createKnight("Percival", 25);

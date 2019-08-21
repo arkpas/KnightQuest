@@ -29,6 +29,10 @@
 					<td th:text="${knight.level}"/>
 				</tr>
 				<tr>
+					<th>Ekwipunek: </th>
+					<td><span th:each="item: ${knight.items}" th:text="'[' + ${item.name} + '] '"/></td>
+				</tr>
+				<tr>
 					<th>Zadanie: </th>
 				<td>
 					<span th:if="${knight.quest == null}">Brak zadania <a th:href="@{/assignQuest(knightId=${knight.id})}">(przydziel)</a></span>

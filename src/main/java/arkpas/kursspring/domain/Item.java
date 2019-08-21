@@ -1,14 +1,25 @@
 package arkpas.kursspring.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Item {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private int timeReduction;
     private int price;
 
-    public Item (int id, String name, int timeReduction, int price) {
-        this.id = id;
+    // Hibernate constructor
+    Item() {}
+
+    public Item (String name, int timeReduction, int price) {
         this.name = name;
         this.timeReduction = timeReduction;
         this.price = price;
@@ -42,6 +53,6 @@ public class Item {
 
     @Override
     public String toString () {
-        return name + " (redukcja: " + timeReduction + ") (cena: " + price + ")";
+        return name + " (redukcja: " + timeReduction + "s) (cena: " + price + ")";
     }
 }

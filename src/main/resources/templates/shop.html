@@ -11,7 +11,6 @@
 
 <body>
     <div class="backgroundDiv" align="center">
-        <p th:text="${message}"/>
         <table>
             <thead>
                 <tr>
@@ -31,6 +30,7 @@
             </tbody>
         </table>
         <a th:href="@{/knights}"><button>Opuść sklep</button></a>
+        <p th:text="${message}"/>
     </div>
 
 </body>
