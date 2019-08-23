@@ -20,6 +20,12 @@ public class QuestService {
 	
 	private final Random rand = new Random();
 
+	@Autowired
+	public QuestService(KnightRepository knightRepository, QuestRepository questRepository) {
+		this.knightRepository = knightRepository;
+		this.questRepository = questRepository;
+	}
+
 	public void assignRandomQuest (int knightId) {
 		List<Quest> notStartedQuests = getNotStartedQuests();
 		if (notStartedQuests.isEmpty()) {
@@ -49,16 +55,6 @@ public class QuestService {
 
 	public void deleteQuest (Quest quest) {
 		questRepository.deleteQuest(quest);
-	}
-
-	@Autowired
-	public void setQuestRepository (QuestRepository questRepository) {
-		this.questRepository = questRepository;
-	}
-
-	@Autowired
-	public void setKnightRepository (KnightRepository knightRepository) {
-		this.knightRepository = knightRepository;
 	}
 
 	public boolean isCompleted (int id) {

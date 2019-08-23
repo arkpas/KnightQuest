@@ -2,7 +2,7 @@ package arkpas.kursspring.controllers;
 
 import arkpas.kursspring.components.TimeComponent;
 import arkpas.kursspring.domain.Knight;
-import arkpas.kursspring.domain.PlayerInformation;
+import arkpas.kursspring.domain.repositories.PlayerInformationRepository;
 import arkpas.kursspring.services.KnightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,31 +18,34 @@ import java.util.List;
 
 @Controller
 public class KnightController {
-	
-	@Autowired
-	TimeComponent timeComponent;
 
-	@Autowired
-	PlayerInformation playerInformation;
 
-	@Autowired
+	private TimeComponent timeComponent;
+	private PlayerInformationRepository playerInformationRepository;
 	private KnightService knightService;
 
+	private int playerId = 1;
 
-	
+	@Autowired
+	public KnightController(TimeComponent timeComponent, PlayerInformationRepository playerInformationRepository, KnightService knightService) {
+		this.timeComponent = timeComponent;
+		this.playerInformationRepository = playerInformationRepository;
+		this.knightService = knightService;
+	}
+
 	@RequestMapping("/knights")
 	public String getKnights(Model model) {
 		List<Knight> knightList = knightService.getKnightList();
 		model.addAttribute("knights", knightList);
 		model.addAttribute("timecomponent", timeComponent);
-		model.addAttribute("playerinformation", playerInformation);
+		model.addAttribute("playerinformation", playerInformationRepository.getPlayer(playerId));
 		return "knights";
 	}
 
 	@RequestMapping(value="/knights", method = RequestMethod.POST)
 	public String saveKnight(@Valid Knight knight, BindingResult result, Model model) {
 		model.addAttribute("timecomponent", timeComponent);
-		model.addAttribute("playerinformation", playerInformation);
+		model.addAttribute("playerinformation", playerInformationRepository.getPlayer(playerId));
 		if (result.hasErrors()) {
 			return "knightform";
 		}
@@ -54,7 +57,7 @@ public class KnightController {
 	public String createKnight(Model model) {
 		model.addAttribute("knight", new Knight());
 		model.addAttribute("timecomponent", timeComponent);
-		model.addAttribute("playerinformation", playerInformation);
+		model.addAttribute("playerinformation", playerInformationRepository.getPlayer(playerId));
 		return "knightform";
 	}
 
@@ -63,7 +66,7 @@ public class KnightController {
 		Knight knight = knightService.getKnight(id);
 		model.addAttribute("knight", knight);
 		model.addAttribute("timecomponent", timeComponent);
-		model.addAttribute("playerinformation", playerInformation);
+		model.addAttribute("playerinformation", playerInformationRepository.getPlayer(playerId));
 		return "knight";
 	}
 

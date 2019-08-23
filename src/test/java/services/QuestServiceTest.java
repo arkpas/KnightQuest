@@ -42,8 +42,7 @@ public class QuestServiceTest {
 
         when(questRepositoryMock.getQuests()).thenReturn(sampleQuestList);
 
-        QuestService questService = new QuestService();
-        questService.setQuestRepository(questRepositoryMock);
+        QuestService questService = new QuestService(null, questRepositoryMock);
         List<Quest> notStartedQuests = questService.getNotStartedQuests();
 
         assertEquals(2, notStartedQuests.size());

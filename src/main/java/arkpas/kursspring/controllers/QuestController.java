@@ -2,8 +2,8 @@ package arkpas.kursspring.controllers;
 
 import arkpas.kursspring.components.TimeComponent;
 import arkpas.kursspring.domain.Knight;
-import arkpas.kursspring.domain.PlayerInformation;
 import arkpas.kursspring.domain.Quest;
+import arkpas.kursspring.domain.repositories.PlayerInformationRepository;
 import arkpas.kursspring.services.KnightService;
 import arkpas.kursspring.services.QuestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +22,16 @@ public class QuestController {
     private QuestService questService;
     private KnightService knightService;
     private TimeComponent timeComponent;
-    private PlayerInformation playerInformation;
+    private PlayerInformationRepository playerInformationRepository;
+
+    private int playerId = 1;
 
     @Autowired
-    public QuestController (QuestService questService, KnightService knightService, TimeComponent timeComponent, PlayerInformation playerInformation) {
+    public QuestController (QuestService questService, KnightService knightService, TimeComponent timeComponent, PlayerInformationRepository playerInformationRepository) {
         this.questService = questService;
         this.knightService = knightService;
         this.timeComponent = timeComponent;
-        this.playerInformation = playerInformation;
+        this.playerInformationRepository = playerInformationRepository;
     }
 
     @RequestMapping("/assignQuest")
@@ -45,7 +47,7 @@ public class QuestController {
         model.addAttribute("knight", knight);
         model.addAttribute("availableQuests", availableQuests);
         model.addAttribute("timecomponent", timeComponent);
-        model.addAttribute("playerinformation", playerInformation);
+        model.addAttribute("playerinformation", playerInformationRepository.getPlayer(playerId));
         return "assignQuest";
     }
 

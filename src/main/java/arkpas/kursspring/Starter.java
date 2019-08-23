@@ -1,10 +1,10 @@
 package arkpas.kursspring;
 
-import arkpas.kursspring.domain.repositories.ItemRepository;
-import arkpas.kursspring.domain.repositories.KnightRepository;
-import arkpas.kursspring.domain.repositories.QuestRepository;
+import arkpas.kursspring.domain.Role;
+import arkpas.kursspring.domain.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
@@ -12,14 +12,21 @@ import org.springframework.stereotype.Component;
 public class Starter implements CommandLineRunner {
 
 
-	@Autowired
-	QuestRepository questRepository;
+
+	private QuestRepository questRepository;
+	private KnightRepository knightRepository;
+	private ItemRepository itemRepository;
+	private PlayerInformationRepository playerInformationRepository;
+	private RoleRepository roleRepository;
 
 	@Autowired
-	KnightRepository knightRepository;
-
-	@Autowired
-	ItemRepository itemRepository;
+	public Starter(QuestRepository questRepository, KnightRepository knightRepository, ItemRepository itemRepository, PlayerInformationRepository playerInformationRepository, RoleRepository roleRepository) {
+		this.questRepository = questRepository;
+		this.knightRepository = knightRepository;
+		this.itemRepository = itemRepository;
+		this.playerInformationRepository = playerInformationRepository;
+		this.roleRepository = roleRepository;
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -33,6 +40,13 @@ public class Starter implements CommandLineRunner {
 		itemRepository.createItem("Buty", 2, 100);
 		itemRepository.createItem("Hełm", 2, 100);
 		itemRepository.createItem("Zbroja", 4, 250);
+
+		roleRepository.createRole("arek", "ADMIN");
+
+		playerInformationRepository.createPlayer("arek", "123");
+
+
+
 
 	}
 

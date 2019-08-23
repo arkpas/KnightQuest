@@ -4,22 +4,28 @@ import arkpas.kursspring.domain.Knight;
 import arkpas.kursspring.domain.PlayerInformation;
 import arkpas.kursspring.domain.Quest;
 import arkpas.kursspring.domain.repositories.KnightRepository;
+import arkpas.kursspring.domain.repositories.PlayerInformationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class KnightService {
 	
-	@Autowired
+
 	private KnightRepository knightRepository;
-	@Autowired
-	private PlayerInformation playerInformation;
-	@Autowired
+	private PlayerInformationRepository playerInformationRepository;
 	private QuestService questService;
+
+	private int playerId = 1;
+
+	@Autowired
+	public KnightService(KnightRepository knightRepository, PlayerInformationRepository playerInformationRepository, QuestService questService) {
+		this.knightRepository = knightRepository;
+		this.playerInformationRepository = playerInformationRepository;
+		this.questService = questService;
+	}
 
 	public List<Knight> getKnightList () {
 		return knightRepository.getKnights();
@@ -49,7 +55,9 @@ public class KnightService {
 	}
 
 	public void getMyGold () {
-		playerInformation.addGold(collectRewards());
+		PlayerInformation playerInformation = playerInformationRepository.getPlayer(playerId);
+		playerInformation.addGold(this.collectRewards());
+		playerInformationRepository.updatePlayer(playerInformation);
 	}
 
 	private void endQuest (Knight knight) {
