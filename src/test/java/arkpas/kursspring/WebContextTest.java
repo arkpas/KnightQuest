@@ -23,49 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 public class WebContextTest {
 
-    @MockBean
-    KnightService knightService;
-    @MockBean
-    PlayerInformationRepository playerInformationRepository;
-    @MockBean
-    QuestService questService;
-    @MockBean
-    TimeComponent timeComponent;
-
-    @Autowired
-    QuestController questController;
-
-    private MockMvc mockMvc;
-
-    @Before
-    public void setup () {
-        //questController = new QuestController(questService, knightService, timeComponent, playerInformation);
-        mockMvc = MockMvcBuilders.standaloneSetup(QuestController.class).build();
-    }
-
-    @Test
-    public void testCheckQuests () throws Exception {
-
-    /*    Quest quest = new Quest("TestQuest", 50, 0);
-
-        Knight knight1 = new Knight("TestKnight1", 22);
-        knight1.setQuest(quest);
-        Knight knight2 = new Knight("TestKnight2", 23);
-
-
-
-        List<Knight> knightsList = new ArrayList<>();
-        knightsList.add(knight1);
-        knightsList.add(knight2);
-
-        when(knightService.getKnightList()).thenReturn(knightsList);*/
-
-        mockMvc.perform(get("/checkQuests"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/knights"))
-        ;
-
-    }
     @Test
     public void contextLoads () {}
 }
