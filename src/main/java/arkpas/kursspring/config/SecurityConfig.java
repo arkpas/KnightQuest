@@ -17,13 +17,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure (HttpSecurity security) throws Exception {
-        security.formLogin().defaultSuccessUrl("/knights", true);
+        security.formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/knights", true)
+                .failureUrl("/login-failure")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login");
+
         security.csrf().ignoringAntMatchers("/h2-console/**")
                 .and().headers().frameOptions().sameOrigin();
+
         security.authorizeRequests()
-                .antMatchers("/register").permitAll();
-        security.authorizeRequests().anyRequest().authenticated();
-        security.authorizeRequests().antMatchers("/resources/**").permitAll().anyRequest().permitAll();
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/register").permitAll()
+                .antMatchers("/login").permitAll();
+        security.authorizeRequests()
+                .anyRequest()
+                .authenticated();
+
+
+
 
     }
 

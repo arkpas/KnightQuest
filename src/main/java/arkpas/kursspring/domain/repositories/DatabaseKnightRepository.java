@@ -24,19 +24,15 @@ public class DatabaseKnightRepository implements KnightRepository {
 
 	@Override
 	@Transactional
-	public void createKnight (String name, int age) {
-		createKnight(new Knight(name,age));
-	}
-
-	@Override
-	@Transactional
 	public void createKnight(Knight knight) {
 		entityManager.persist(knight);
 	}
 
 	@Override
-	public List<Knight> getKnights() {
-		return entityManager.createQuery("SELECT k FROM Knight AS k", Knight.class).getResultList();
+	public List<Knight> getKnights(int playerId) {
+		return entityManager.createQuery("SELECT k FROM Knight AS k WHERE player_id = :playerId", Knight.class)
+				.setParameter("playerId", playerId)
+				.getResultList();
 	}
 
 	@Override

@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add knight</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
     <script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
     <script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
 
@@ -11,14 +11,13 @@
 <body>
 <div class="backgroundDiv" align="center">
     <p th:text="${timecomponent.time}"/>
-    <p th:text="'Złoto ' + ${playerinformation.gold}"/>
     <div class="form">
         <form th:action="@{/assignQuest}" th:method="post">
             <input type="hidden" th:value="${knight.id}" name="knightId"/>
             <select name="questId">
                 <option th:each="quest : ${availableQuests}"
                         th:value="${quest.id}"
-                        th:text="${quest.description}"
+                        th:text="${quest.questTemplate.description}"
                 ></option>
             </select>
             <button type="submit">Przydziel zadanie</button>

@@ -8,11 +8,9 @@ import arkpas.kursspring.domain.Knight;
 
 public interface KnightRepository {
 
-	public void createKnight (String name, int age);
-
 	public void createKnight (Knight knight);
 	
-	public List<Knight> getKnights ();
+	public List<Knight> getKnights (int playerId);
 	
 	public Knight getKnight (int id);
 	

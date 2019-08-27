@@ -1,12 +1,13 @@
 package arkpas.kursspring.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Item {
+
+    //fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,14 +17,14 @@ public class Item {
     private int timeReduction;
     private int price;
 
-    // Hibernate constructor
-    Item() {}
+    @OneToMany (mappedBy = "item")
+    private Set<Equipment> equipmentSet = new HashSet<>();
 
-    public Item (String name, int timeReduction, int price) {
-        this.name = name;
-        this.timeReduction = timeReduction;
-        this.price = price;
-    }
+    //constructors
+
+    public Item() {}
+
+    //getters
 
     public int getId() {
         return id;
@@ -37,6 +38,11 @@ public class Item {
     public int getPrice() {
         return price;
     }
+    public Set<Equipment> getEquipmentSet() {
+        return equipmentSet;
+    }
+
+    //setters
 
     public void setId(int id) {
         this.id = id;
@@ -50,9 +56,32 @@ public class Item {
     public void setPrice(int price) {
         this.price = price;
     }
+    public void setEquipmentSet(Set<Equipment> equipmentSet) {
+        this.equipmentSet = equipmentSet;
+    }
+
+    //methods
 
     @Override
     public String toString () {
         return name + " (redukcja: " + timeReduction + "s) (cena: " + price + ")";
     }
+
+    @Override
+    public boolean equals (Object o) {
+        if (this == o)
+            return true;
+        if (o == null || o.getClass() != this.getClass())
+            return false;
+
+        Item item = (Item) o;
+
+        return (this.name.equals(item.name) && this.timeReduction == item.timeReduction && this.price == item.price);
+    }
+
+    @Override
+    public int hashCode () {
+        return this.name.hashCode() + this.timeReduction + this.price;
+    }
+
 }

@@ -35,8 +35,12 @@ public class PlayerInformationRepository {
     }
 
 
-    public arkpas.kursspring.domain.PlayerInformation getPlayer (int id) {
-        return entityManager.find(PlayerInformation.class, id);
+    public PlayerInformation getPlayer (int id) {
+       return entityManager.find(PlayerInformation.class, id);
+    }
+
+    public PlayerInformation getPlayer (String name) {
+        return entityManager.createQuery("SELECT player FROM PlayerInformation AS player WHERE username= :username", PlayerInformation.class).setParameter("username", name).getSingleResult();
     }
 
     @Transactional

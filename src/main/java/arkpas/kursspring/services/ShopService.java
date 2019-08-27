@@ -3,9 +3,9 @@ package arkpas.kursspring.services;
 import arkpas.kursspring.domain.Item;
 import arkpas.kursspring.domain.Knight;
 import arkpas.kursspring.domain.PlayerInformation;
-import arkpas.kursspring.domain.repositories.ItemRepository;
 import arkpas.kursspring.domain.repositories.PlayerInformationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,40 +14,38 @@ import java.util.List;
 public class ShopService {
 
     private KnightService knightService;
-    private ItemRepository itemRepository;
-    private PlayerInformationRepository playerInformationRepository;
-
-    private int playerId = 1;
+    private ItemService itemService;
+    private PlayerInformationService playerInformationService;
+    private EquipmentService equipmentService;
 
     @Autowired
-    public ShopService(KnightService knightService, ItemRepository itemRepository, PlayerInformationRepository playerInformationRepository) {
+    public ShopService(KnightService knightService, ItemService itemService, PlayerInformationService playerInformationService, EquipmentService equipmentService) {
         this.knightService = knightService;
-        this.itemRepository = itemRepository;
-        this.playerInformationRepository = playerInformationRepository;
-    }
-
-    public List<Item> getItems () {
-        return itemRepository.getItems();
+        this.itemService = itemService;
+        this.playerInformationService = playerInformationService;
+        this.equipmentService = equipmentService;
     }
 
     public String buyItem (int knightId, int itemId) {
-        Item item = itemRepository.getItem(itemId);
-        Knight knight = knightService.getKnight(knightId);
-        PlayerInformation playerInformation = playerInformationRepository.getPlayer(playerId);
-        String message = "";
-        if (knight != null && item != null) {
-            if (item.getPrice() <= playerInformation.getGold()) {
-                if (knight.addItem(item)) {
-                    playerInformation.removeGold(item.getPrice());
-                    message = "Zakupiono przedmiot " + item.getName() + ".";
-                    knightService.updateKnight(knight);
-                }
-                else { message = "Masz juz ten przedmiot!"; }
-            }
-            else { message = "Masz za mało złota!"; }
-        }
 
-        return message;
+        Item item = itemService.getItem(itemId);
+        Knight knight = knightService.getKnight(knightId);
+
+        if (knight == null || item == null)
+            return "Brak podanego rycerza lub przedmiotu.";
+        if (!playerInformationService.isItCurrentPlayer(knight.getPlayerInformation()))
+            return "Ten rycerz nie należy do Ciebie!";
+        if (!playerInformationService.hasEnoughGold(item.getPrice()))
+            return "Masz za mało złota!";
+        if (equipmentService.hasItemInEquipment(knight, item))
+            return "Masz juz ten przedmiot!";
+
+        PlayerInformation playerInformation = playerInformationService.getPlayer();
+        playerInformation.removeGold(item.getPrice());
+        equipmentService.addEquipment(knight, item);
+        return "Zakupiono przedmiot " + item.getName();
+
+
 
     }
 }

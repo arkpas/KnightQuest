@@ -12,7 +12,7 @@
 	<import resource="classpath:config/castle-config.xml"/>
 	
 	
-	<bean id="quest" class="arkpas.kursspring.domain.Quest" scope="session"  />
+	<bean id="quest" class="arkpas.kursspring.domain.QuestTemplate" scope="session"  />
 	
 	<task:scheduler id="myScheduler" pool-size="10"/>
 	

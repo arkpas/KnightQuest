@@ -3,7 +3,7 @@
 	  xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>View knight</title>
-		<link rel="stylesheet" type="text/css" th:href="@{/style.css}"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
 		<script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 		<script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
 
@@ -30,13 +30,13 @@
 				</tr>
 				<tr>
 					<th>Ekwipunek: </th>
-					<td><span th:each="item: ${knight.items}" th:text="'[' + ${item.name} + '] '"/></td>
+					<td><span th:each="equipment: ${knight.equipmentSet}" th:text="'[' + ${equipment.item.name} + '] '"/></td>
 				</tr>
 				<tr>
 					<th>Zadanie: </th>
 				<td>
 					<span th:if="${knight.quest == null}">Brak zadania <a th:href="@{/assignQuest(knightId=${knight.id})}">(przydziel)</a></span>
-					<span th:if="${knight.quest != null}" th:text="${knight.quest}"/>
+					<span th:if="${knight.quest != null}" th:text="${knight.quest.questTemplate}"/>
 				</td>
 				</tr>
 			</table>

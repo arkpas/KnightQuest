@@ -4,10 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import arkpas.kursspring.domain.Knight;
-import arkpas.kursspring.domain.Quest;
-import arkpas.kursspring.domain.repositories.MemoryKnightRepository;
-
 public class CastleTest {
 	
 	@Test

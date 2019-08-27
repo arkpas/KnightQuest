@@ -2,13 +2,14 @@ package arkpas.kursspring.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Entity
 public class Knight {
+
+	//fields
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -28,14 +29,14 @@ public class Knight {
 	@OneToOne
 	private Quest quest;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-			name = "equipement",
-			joinColumns = @JoinColumn (name = "knightId"),
-			inverseJoinColumns = @JoinColumn (name = "itemId")
-	)
-	private Set<Item> items = new HashSet<>();
+	@OneToMany(mappedBy = "knight")
+	private Set<Equipment> equipmentSet = new HashSet<>();
 
+	@ManyToOne
+	@JoinColumn (name = "playerId")
+	private PlayerInformation playerInformation;
+
+	// constructors
 
 	public Knight () {}
 
@@ -43,25 +44,40 @@ public class Knight {
 		this.name = name;
 		this.age = age;
 	}
-	
-	public void setQuest (Quest quest) {
-		this.quest = quest;
-		quest.setStarted(true);
-	}
-	public void setName (String name) { this.name = name; }
-	public void setAge (int age) { this.age = age; }
-	public void setLevel (int level) { this.level = level; }
-	public void setId (int id) { this.id = id; }
-	public boolean addItem (Item item) { return items.add(item); }
-	
+
+	//getters
+
+	public int getId() { return id; }
 	public String getName () { return name; }
 	public int getAge () { return age; }
 	public Quest getQuest () { return quest; }
 	public int getLevel () { return level; }
-	public int getId() { return id; }
-	public Set<Item> getItems () { return items; }
+	public Set<Equipment> getEquipmentSet () { return equipmentSet; }
+	public PlayerInformation getPlayerInformation() {
+		return playerInformation;
+	}
+
+	//setters
+
+	public void setId (int id) { this.id = id; }
+	public void setName (String name) { this.name = name; }
+	public void setAge (int age) { this.age = age; }
+	public void setLevel (int level) { this.level = level; }
+	public void setQuest (Quest quest) {
+		this.quest = quest;
+		quest.setStarted(true);
+	}
+	public void setEquipmentSet(Set<Equipment> equipmentSet) {
+		this.equipmentSet = equipmentSet;
+	}
+	public void setPlayerInformation(PlayerInformation playerInformation) {
+		this.playerInformation = playerInformation;
+	}
+
+	//methods
+
 	public int getTimeReduction () {
-		return items.stream().mapToInt(Item::getTimeReduction).sum();
+		return equipmentSet.stream().mapToInt(equipment -> equipment.getItem().getTimeReduction()).sum();
 	}
 
 	public void removeQuest () {

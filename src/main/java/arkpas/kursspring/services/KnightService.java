@@ -4,7 +4,6 @@ import arkpas.kursspring.domain.Knight;
 import arkpas.kursspring.domain.PlayerInformation;
 import arkpas.kursspring.domain.Quest;
 import arkpas.kursspring.domain.repositories.KnightRepository;
-import arkpas.kursspring.domain.repositories.PlayerInformationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +14,25 @@ public class KnightService {
 	
 
 	private KnightRepository knightRepository;
-	private PlayerInformationRepository playerInformationRepository;
+	private PlayerInformationService playerInformationService;
 	private QuestService questService;
 
-	private int playerId = 1;
-
 	@Autowired
-	public KnightService(KnightRepository knightRepository, PlayerInformationRepository playerInformationRepository, QuestService questService) {
+	public KnightService(KnightRepository knightRepository, PlayerInformationService playerInformationService, QuestService questService) {
 		this.knightRepository = knightRepository;
-		this.playerInformationRepository = playerInformationRepository;
+		this.playerInformationService = playerInformationService;
 		this.questService = questService;
 	}
 
 	public List<Knight> getKnightList () {
-		return knightRepository.getKnights();
+		PlayerInformation playerInformation = playerInformationService.getPlayer();
+		return knightRepository.getKnights(playerInformation.getId());
 	}
 
 	public void saveKnight(Knight knight) {
+		PlayerInformation playerInformation = playerInformationService.getPlayer();
+
+		knight.setPlayerInformation(playerInformation);
 		knightRepository.createKnight(knight);
 	}
 
@@ -40,11 +41,8 @@ public class KnightService {
 	}
 
 	public void deleteKnight (Knight knight) {
-		knightRepository.deleteKnight(knight);
-	}
-
-	public void updateKnight (Knight knight) {
-		knightRepository.updateKnight(knight);
+		if (playerInformationService.isItCurrentPlayer(knight.getPlayerInformation()))
+			knightRepository.deleteKnight(knight);
 	}
 
 	private int collectRewards () {
@@ -55,24 +53,25 @@ public class KnightService {
 	}
 
 	public void getMyGold () {
-		PlayerInformation playerInformation = playerInformationRepository.getPlayer(playerId);
+		PlayerInformation playerInformation = playerInformationService.getPlayer();
 		playerInformation.addGold(this.collectRewards());
-		playerInformationRepository.updatePlayer(playerInformation);
+		playerInformationService.updatePlayer(playerInformation);
 	}
 
 	private void endQuest (Knight knight) {
 		Quest quest = knight.getQuest();
 		knight.removeQuest();
 		questService.deleteQuest(quest);
-		this.updateKnight(knight);
 	}
 
 	public void assignQuest (int knightId, int questId) {
 		Knight knight = this.getKnight(knightId);
 		Quest quest = questService.getQuest(questId);
-		quest.setLength(quest.getLength() - knight.getTimeReduction());
+
+		quest.setTimeReduction(knight.getTimeReduction());
 		knight.setQuest(quest);
-		this.updateKnight(knight);
+
+		knightRepository.updateKnight(knight);
 		questService.updateQuest(quest);
 	}
 }

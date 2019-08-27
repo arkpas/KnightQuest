@@ -5,7 +5,7 @@
 	<title>Knights list</title>
 	<script th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
 	<script th:src="@{webjars/jquery/3.4.1/jquery.min.js}"></script>
-	<link rel="stylesheet" th:href="@{/style.css}"/>
+	<link rel="stylesheet" th:href="@{/css/style.css}"/>
 
 </head>
 <body>
@@ -28,7 +28,7 @@
 				<td th:text="${knight.level}"/>
 				<td>
 					<span th:if="${knight.quest == null}">Brak zadania <a th:href="@{/assignQuest(knightId=${knight.id})}">(przydziel)</a></span>
-					<span th:if="${knight.quest != null}" th:text="${knight.quest}"/>
+					<span th:if="${knight.quest != null}" th:text="${knight.quest.questTemplate}"/>
 				</td>
 				<td><a th:href="@{'/shop/' + ${knight.id}}">Kup przedmioty</a></td>
 				<td><a th:href="@{/knight(knightId=${knight.id})}">Podglad</a></td>
@@ -37,7 +37,7 @@
 			</tbody>
 		</table>
 			<a href="/newknight"><button>Wyszkol nowego rycerza</button></a>
-			<a href="/logout"><button>Wyloguj</button></a>
+		<a href="/login?logout"><button>Wyloguj</button></a> <b th:text="'(' + ${playerinformation.username} + ')'"></b>
 	</div>
 
 </body>

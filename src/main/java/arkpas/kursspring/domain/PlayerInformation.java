@@ -1,13 +1,14 @@
 package arkpas.kursspring.domain;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class PlayerInformation {
+
+    //fields
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +19,12 @@ public class PlayerInformation {
     private int gold = 1000;
     private boolean active;
 
-    PlayerInformation() {}
+    @OneToMany(mappedBy = "playerInformation", cascade = CascadeType.ALL)
+    private Set<Knight> knights = new HashSet<>();
+
+    //constructors
+
+    public PlayerInformation() {}
 
     public PlayerInformation(String username, String password) {
         this.username = username;
@@ -26,9 +32,51 @@ public class PlayerInformation {
         this.active = true;
     }
 
+    //getters
+
+    public int getId() {
+        return id;
+    }
+    public String getUsername() {
+        return username;
+    }
     public int getGold() { return gold; }
+    public boolean isActive() {
+        return active;
+    }
+    public Set<Knight> getKnights () {
+        return knights;
+    }
 
-    public void addGold(int gold) { this.gold += gold; }
+    //setters
 
-    public void removeGold(int gold) { this.gold -= gold; }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    public void setKnights(Set<Knight> knights) {
+        this.knights = knights;
+    }
+
+    //methods
+
+    public void addGold(int gold) {
+        this.gold += gold;
+    }
+
+    public void removeGold(int gold) {
+        this.gold -= gold;
+    }
+
 }

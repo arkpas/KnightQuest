@@ -2,65 +2,84 @@ package arkpas.kursspring.domain;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
-
 
 @Entity
 public class Quest {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    //fields
 
-	private String description;
-	private int goldReward;
-	private int length; //in seconds
-	private boolean started = false;
-	private boolean completed = false;
-	private LocalDateTime startDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	// constructor for Hibernate
-	Quest () {}
+    @OneToOne
+    private QuestTemplate questTemplate;
 
-	public Quest (String description, int goldReward, int length) {
-		this.description = description;
-		this.goldReward = goldReward;
-		this.length = length;
-	}
+    @OneToOne
+    private PlayerInformation playerInformation;
 
-	public int getId() { return id; }
-	public String getDescription() { return description; }
-	public int getGoldReward() { return goldReward; }
-	public int getLength() { return length; }
-	public boolean isStarted() { return started; }
-	public boolean isCompleted() {
-		if (completed)
-			return true;
+    private int timeReduction;
+    private boolean started = false;
+    private boolean completed = false;
+    private LocalDateTime startDate;
 
-		if (started) {
-			LocalDateTime now = LocalDateTime.now();
-			completed = startDate.plusSeconds(length).isBefore(now);
-		}
-		return completed;
+    //constructors
 
-	}
-	public LocalDateTime getStartDate() {
-		return startDate;
-	}
+    public Quest() {
+    }
 
-	public void setId (int id) { this.id = id; }
-	public void setDescription(String description) { this.description = description; }
-	public void setGoldReward(int goldReward) { this.goldReward = goldReward; }
-	public void setLength(int length) { this.length = length; }
-	public void setStarted(boolean started) {
-		this.started = started;
-		if (started)
-			startDate = LocalDateTime.now();
-	}
-	
-	@Override
-	public String toString () {
-		return description;
-	}
+    //getters
 
+    public int getId() {
+        return id;
+    }
+    public QuestTemplate getQuestTemplate() {
+        return questTemplate;
+    }
+    public PlayerInformation getPlayerInformation() {
+        return playerInformation;
+    }
+    public int getTimeReduction() {
+        return timeReduction;
+    }
+    public boolean isStarted() { return started; }
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+
+    //setters
+
+    public void setStarted(boolean started) {
+        this.started = started;
+        if (started)
+            startDate = LocalDateTime.now();
+    }
+
+    public void setQuestTemplate(QuestTemplate questTemplate) {
+        this.questTemplate = questTemplate;
+    }
+    public void setPlayerInformation(PlayerInformation playerInformation) {
+        this.playerInformation = playerInformation;
+    }
+    public void setTimeReduction(int timeReduction) {
+        this.timeReduction = timeReduction;
+    }
+
+    //methods
+
+    public boolean isCompleted() {
+        if (completed)
+            return true;
+
+        if (started) {
+            LocalDateTime now = LocalDateTime.now();
+            completed = startDate.plusSeconds(this.getLength() - timeReduction).isBefore(now);
+        }
+        return completed;
+
+    }
+
+    public int getGoldReward() { return questTemplate.getGoldReward(); }
+    public int getLength() { return questTemplate.getLength(); }
 }
