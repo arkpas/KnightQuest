@@ -7,11 +7,11 @@ Web application about knights, princesses and dragons. Create your knights, assi
 This project was created thanks to Kurs Spring Framework od podstaw (strefakursow.pl). Core features are shown in mentioned course, additional funtions are added by myself (i.e. shop system).
 
 ## Used technologies/frameworks/libraries/languages
-Java 8, JavaFX, CSS, HTML, Spring, Thymeleaf, Maven
+Java 8, JavaFX, CSS, HTML, Spring, Thymeleaf, Maven, Hibernate
 
 ## Installation
 
-Download folder "client" and run "kursspring-0.0.1-SNAPSHOT.jar". Small window will appear - this is server window, dont close it! Open your browser and go to http://localhost:8080/knights . You need JRE installed on your machine to run this application.
+Download folder "client" and run "kursspring-0.0.X-SNAPSHOT.jar". Small window will appear - this is server window, dont close it! Open your browser and go to http://localhost:8080/knights . You need JRE installed on your machine to run this application.
 
 ## License
 
