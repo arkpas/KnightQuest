@@ -67,21 +67,6 @@ public class Item {
         return name + " (redukcja: " + timeReduction + "s) (cena: " + price + ")";
     }
 
-    @Override
-    public boolean equals (Object o) {
-        if (this == o)
-            return true;
-        if (o == null || o.getClass() != this.getClass())
-            return false;
 
-        Item item = (Item) o;
-
-        return (this.name.equals(item.name) && this.timeReduction == item.timeReduction && this.price == item.price);
-    }
-
-    @Override
-    public int hashCode () {
-        return this.name.hashCode() + this.timeReduction + this.price;
-    }
 
 }

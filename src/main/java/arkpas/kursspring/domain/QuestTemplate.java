@@ -16,7 +16,7 @@ public class QuestTemplate {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String description;
+	private String description = "";
 	private QuestRarity rarity;
 	private int goldReward;
 	private int length; //in seconds

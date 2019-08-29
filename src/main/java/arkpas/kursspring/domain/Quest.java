@@ -50,12 +50,6 @@ public class Quest {
 
     //setters
 
-    public void setStarted(boolean started) {
-        this.started = started;
-        if (started)
-            startDate = LocalDateTime.now();
-    }
-
     public void setQuestTemplate(QuestTemplate questTemplate) {
         this.questTemplate = questTemplate;
     }
@@ -67,6 +61,12 @@ public class Quest {
     }
 
     //methods
+
+    public void setStarted(boolean started) {
+        this.started = started;
+        if (started)
+            startDate = LocalDateTime.now();
+    }
 
     public boolean isCompleted() {
         if (completed)

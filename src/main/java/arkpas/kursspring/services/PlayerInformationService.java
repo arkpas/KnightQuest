@@ -16,8 +16,22 @@ public class PlayerInformationService {
         this.playerInformationRepository = playerInformationRepository;
     }
 
-    public void createPlayer (String username, String password) {
-        playerInformationRepository.createPlayer(username, password);
+    public String createPlayer (String username, String password) {
+        if (playerInformationRepository.getPlayer(username) != null) {
+            return "Nazwa użytkownika jest już zajęta.";
+        }
+        else {
+            playerInformationRepository.createPlayer(username, password);
+        }
+        return null;
+    }
+
+    public PlayerInformation getPlayer (int id) {
+        return playerInformationRepository.getPlayer(id);
+    }
+
+    public PlayerInformation getPlayer (String name) {
+        return playerInformationRepository.getPlayer(name);
     }
 
     public PlayerInformation getPlayer () {

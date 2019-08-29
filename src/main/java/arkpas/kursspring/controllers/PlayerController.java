@@ -24,10 +24,16 @@ public class PlayerController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerUser (@RequestParam("username") String username, @RequestParam("password") String password) {
-        playerInformationService.createPlayer(username, password);
+    public String registerUser (@RequestParam("username") String username, @RequestParam("password") String password, Model model) {
+        String message = playerInformationService.createPlayer(username, password);
         password = null;
-        return "redirect:/login";
+        if (message != null) {
+            model.addAttribute("message", message);
+            return "registerform";
+        }
+        else {
+            return "redirect:/login";
+        }
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

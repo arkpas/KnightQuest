@@ -31,13 +31,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         security.authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/login").permitAll();
+                .antMatchers("/login").permitAll()
+                .antMatchers("/h2-console/**").hasAnyAuthority("ADMIN");
+
         security.authorizeRequests()
                 .anyRequest()
                 .authenticated();
-
-
-
 
     }
 

@@ -63,10 +63,6 @@ public class Knight {
 	public void setName (String name) { this.name = name; }
 	public void setAge (int age) { this.age = age; }
 	public void setLevel (int level) { this.level = level; }
-	public void setQuest (Quest quest) {
-		this.quest = quest;
-		quest.setStarted(true);
-	}
 	public void setEquipmentSet(Set<Equipment> equipmentSet) {
 		this.equipmentSet = equipmentSet;
 	}
@@ -78,6 +74,11 @@ public class Knight {
 
 	public int getTimeReduction () {
 		return equipmentSet.stream().mapToInt(equipment -> equipment.getItem().getTimeReduction()).sum();
+	}
+
+	public void setQuest (Quest quest) {
+		this.quest = quest;
+		quest.setStarted(true);
 	}
 
 	public void removeQuest () {

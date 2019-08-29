@@ -42,7 +42,10 @@ public class ShopService {
 
         PlayerInformation playerInformation = playerInformationService.getPlayer();
         playerInformation.removeGold(item.getPrice());
+
         equipmentService.addEquipment(knight, item);
+        playerInformationService.updatePlayer(playerInformation);
+
         return "Zakupiono przedmiot " + item.getName();
 
 

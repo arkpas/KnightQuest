@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public class PlayerInformationRepository {
@@ -40,7 +41,11 @@ public class PlayerInformationRepository {
     }
 
     public PlayerInformation getPlayer (String name) {
-        return entityManager.createQuery("SELECT player FROM PlayerInformation AS player WHERE username= :username", PlayerInformation.class).setParameter("username", name).getSingleResult();
+        PlayerInformation playerInformation = null;
+        List<PlayerInformation> results = entityManager.createQuery("SELECT player FROM PlayerInformation AS player WHERE username= :username", PlayerInformation.class).setParameter("username", name).getResultList();
+        if (!results.isEmpty())
+            playerInformation = results.get(0);
+        return playerInformation;
     }
 
     @Transactional
