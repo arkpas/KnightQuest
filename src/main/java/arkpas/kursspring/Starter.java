@@ -40,12 +40,20 @@ public class Starter implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 
-		roleRepository.createRole("arek", "ADMIN");
-		playerInformationRepository.createPlayer("arek", "123");
+		roleRepository.createRole("admin", "ADMIN");
+		playerInformationRepository.createPlayer("admin", "123");
 
-		questRepository.createQuestTemplate("Uratuj księżniczkę", QuestRarity.COMMON, 100, 5);
-		questRepository.createQuestTemplate("Zabij smoka", QuestRarity.COMMON, 100, 5);
-		questRepository.createQuestTemplate("Kup eliksir", QuestRarity.COMMON, 100, 5);
+		questRepository.createQuestTemplate("Wyczyść zbroję", QuestRarity.COMMON, 50, 1, 10);
+		questRepository.createQuestTemplate("Nakarm konie", QuestRarity.COMMON, 50, 1,10);
+		questRepository.createQuestTemplate("Kup eliksir", QuestRarity.COMMON, 50, 1, 10);
+
+		questRepository.createQuestTemplate("Eskortuj kupca", QuestRarity.RARE, 75, 2, 20);
+		questRepository.createQuestTemplate("Ubij dzika", QuestRarity.RARE, 75, 2, 20);
+		questRepository.createQuestTemplate("Trenuj giermka", QuestRarity.RARE, 75, 2, 20);
+
+		questRepository.createQuestTemplate("Uchroń wioskę przed bandytami", QuestRarity.EPIC, 150, 5, 40);
+		questRepository.createQuestTemplate("Znajdź i ukarz dezerterów", QuestRarity.EPIC, 150, 5, 40);
+		questRepository.createQuestTemplate("Eksploruj lochy", QuestRarity.EPIC, 150, 5, 40);
 
 		itemService.createItem("Rękawice", 2, 100);
 		itemService.createItem("Buty", 2, 100);

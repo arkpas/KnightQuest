@@ -25,19 +25,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutSuccessUrl("/login");
 
-        security.csrf().ignoringAntMatchers("/h2-console/**")
-                .and().headers().frameOptions().sameOrigin();
 
         security.authorizeRequests()
                 .antMatchers("/css/**").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/h2-console/**").hasAnyAuthority("ADMIN");
+                .antMatchers("/login").permitAll();
 
         security.authorizeRequests()
                 .anyRequest()
                 .authenticated();
-
     }
 
     @Autowired

@@ -19,16 +19,18 @@ public class QuestTemplate {
 	private String description = "";
 	private QuestRarity rarity;
 	private int goldReward;
+	private int expReward;
 	private int length; //in seconds
 
 	// constructors
 
 	public QuestTemplate() {}
 
-	public QuestTemplate(String description, QuestRarity rarity, int reward, int length) {
+	public QuestTemplate(String description, QuestRarity rarity, int goldReward, int expReward, int length) {
 		this.description = description;
 		this.rarity = rarity;
-		this.goldReward = reward;
+		this.goldReward = goldReward;
+		this.expReward = expReward;
 		this.length = length;
 	}
 
@@ -41,6 +43,9 @@ public class QuestTemplate {
 	}
 	public int getGoldReward() {
 		return goldReward;
+	}
+	public int getExpReward() {
+		return expReward;
 	}
 	public int getLength() {
 		return length;
@@ -55,6 +60,9 @@ public class QuestTemplate {
 	}
 	public void setGoldReward(int goldReward) {
 		this.goldReward = goldReward;
+	}
+	public void setExpReward(int expReward) {
+		this.expReward = expReward;
 	}
 	public void setLength(int length) {
 		this.length = length;

@@ -8,8 +8,20 @@ table {
 
 th, td {
     border: 1px solid black;
+    border-radius: 5px;
+    background-radius: 5px;
     background-color: lightyellow;
     height: 30px;
+}
+
+body, html {
+    height: 99%;
+}
+
+body {
+    background-image: url("castle2.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 
@@ -20,6 +32,8 @@ thead {
 .form {
     background-color: lightyellow;
     border: 1px solid black;
+    border-radius: 10px;
+    background-radius: 10px;
     width: 300px;
     padding: 20px;
 }
@@ -29,8 +43,6 @@ thead {
 }
 
 .backgroundDiv {
-    width: 800px;
-    background-color: lightblue;
     margin:0 auto;
     padding: 20px;
 
@@ -40,5 +52,49 @@ thead {
     color: red;
     font-size: 11px;
     margin: 0;
+}
+
+
+
+.option {
+    background-color: red;
+    color: blue;
+}
+
+.optionCOMMON {
+    background-color: white;
+}
+
+.optionRARE {
+    background-color: lightblue;
+}
+
+.optionEPIC {
+    background-color: plum;
+}
+
+.optionLEGENDARY {
+    background-color: peachpuff;
+}
+
+.option {
+    background-color: red;
+    color: blue;
+}
+
+.questCOMMON {
+    background-color: white;
+}
+
+.questRARE {
+    background-color: lightblue;
+}
+
+.questEPIC {
+    background-color: plum;
+}
+
+.questLEGENDARY {
+    background-color: peachpuff;
 }
 

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class KnightService {
@@ -40,13 +41,17 @@ public class KnightService {
 		return knightRepository.getKnight(id);
 	}
 
+	public void updateKnight (Knight knight) {
+		knightRepository.updateKnight(knight);
+	}
+
 	public void deleteKnight (Knight knight) {
 		if (playerInformationService.isItCurrentPlayer(knight.getPlayerInformation()))
 			knightRepository.deleteKnight(knight);
 	}
 
 	private int collectRewards () {
-		List<Knight> knights = getKnightList();
+		List<Knight> knights = this.getKnightList();
 		int gold = knights.stream().filter(knight -> knight.getQuest()!=null).filter(knight -> knight.getQuest().isCompleted()).mapToInt(knight -> knight.getQuest().getGoldReward()).sum();
 		knights.stream().filter(knight -> knight.getQuest()!=null).filter(knight -> knight.getQuest().isCompleted()).forEach(this::endQuest);
 		return gold;
@@ -61,17 +66,30 @@ public class KnightService {
 	private void endQuest (Knight knight) {
 		Quest quest = knight.getQuest();
 		knight.removeQuest();
+		knight.addExperience(quest.getExpReward());
+
 		questService.deleteQuest(quest);
+		this.updateKnight(knight);
+	}
+
+	public List<Knight> getFreeKnights () {
+		PlayerInformation playerInformation = playerInformationService.getPlayer();
+		List<Knight> freeKnights = knightRepository.getKnights(playerInformation.getId());
+		freeKnights = freeKnights.stream().filter(knight -> knight.getQuest() == null).collect(Collectors.toList());
+		return freeKnights;
 	}
 
 	public void assignQuest (int knightId, int questId) {
 		Knight knight = this.getKnight(knightId);
-		Quest quest = questService.getQuest(questId);
 
-		quest.setTimeReduction(knight.getTimeReduction());
-		knight.setQuest(quest);
+		if (playerInformationService.isItCurrentPlayer(knight.getPlayerInformation()) && knight.getQuest() == null) {
+			Quest quest = questService.getQuest(questId);
 
-		knightRepository.updateKnight(knight);
-		questService.updateQuest(quest);
+			quest.setTimeReduction(knight.getTimeReduction());
+			knight.setQuest(quest);
+
+			this.updateKnight(knight);
+			questService.updateQuest(quest);
+		}
 	}
 }

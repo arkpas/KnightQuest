@@ -81,5 +81,6 @@ public class Quest {
     }
 
     public int getGoldReward() { return questTemplate.getGoldReward(); }
+    public int getExpReward() { return questTemplate.getExpReward(); }
     public int getLength() { return questTemplate.getLength(); }
 }

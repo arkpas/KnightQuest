@@ -20,16 +20,16 @@ public class QuestRepository {
 
 
 	@Transactional
-	public void createQuest (PlayerInformation playerInformation) {
+	public void createQuest (PlayerInformation playerInformation, QuestTemplate questTemplate) {
 		Quest quest = new Quest();
-		List<QuestTemplate> templates = this.getQuestTemplates();
-		quest.setQuestTemplate(templates.get(0));
+		System.out.println(questTemplate.getRarity());
+		quest.setQuestTemplate(questTemplate);
 		quest.setPlayerInformation(playerInformation);
 		entityManager.persist(quest);
 	}
 	@Transactional
-	public void createQuestTemplate (String description, QuestRarity rarity, int reward, int length) {
-		QuestTemplate questTemplate = new QuestTemplate(description, rarity, reward, length);
+	public void createQuestTemplate (String description, QuestRarity rarity, int goldReward, int expReward, int length) {
+		QuestTemplate questTemplate = new QuestTemplate(description, rarity, goldReward, expReward, length);
 		entityManager.persist(questTemplate);
 	}
 

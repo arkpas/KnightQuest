@@ -21,13 +21,11 @@ import java.util.List;
 public class KnightController {
 
 
-	private TimeComponent timeComponent;
 	private PlayerInformationService playerInformationService;
 	private KnightService knightService;
 
 	@Autowired
-	public KnightController(TimeComponent timeComponent, PlayerInformationService playerInformationService, KnightService knightService) {
-		this.timeComponent = timeComponent;
+	public KnightController(PlayerInformationService playerInformationService, KnightService knightService) {
 		this.playerInformationService = playerInformationService;
 		this.knightService = knightService;
 	}
@@ -36,14 +34,12 @@ public class KnightController {
 	public String getKnights(Model model) {
 		List<Knight> knightList = knightService.getKnightList();
 		model.addAttribute("knights", knightList);
-		model.addAttribute("timecomponent", timeComponent);
 		model.addAttribute("playerinformation", playerInformationService.getPlayer());
 		return "knights";
 	}
 
 	@RequestMapping(value="/knights", method = RequestMethod.POST)
 	public String saveKnight(@Valid Knight knight, BindingResult result, Model model) {
-		model.addAttribute("timecomponent", timeComponent);
 		model.addAttribute("playerinformation", playerInformationService.getPlayer());
 		if (result.hasErrors()) {
 			return "knightform";
@@ -55,7 +51,6 @@ public class KnightController {
 	@RequestMapping("/newknight")
 	public String createKnight(Model model) {
 		model.addAttribute("knight", new Knight());
-		model.addAttribute("timecomponent", timeComponent);
 		model.addAttribute("playerinformation", playerInformationService.getPlayer());
 		return "knightform";
 	}
@@ -64,7 +59,6 @@ public class KnightController {
 	public String getKnight(@RequestParam(value = "knightId") int id, Model model) {
 		Knight knight = knightService.getKnight(id);
 		model.addAttribute("knight", knight);
-		model.addAttribute("timecomponent", timeComponent);
 		model.addAttribute("playerinformation", playerInformationService.getPlayer());
 		return "knight";
 	}

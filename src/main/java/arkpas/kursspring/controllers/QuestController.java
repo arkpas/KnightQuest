@@ -4,8 +4,10 @@ import arkpas.kursspring.components.TimeComponent;
 import arkpas.kursspring.domain.Knight;
 import arkpas.kursspring.domain.Quest;
 import arkpas.kursspring.services.KnightService;
+import arkpas.kursspring.services.PlayerInformationService;
 import arkpas.kursspring.services.QuestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,38 +22,45 @@ public class QuestController {
 
     private QuestService questService;
     private KnightService knightService;
-    private TimeComponent timeComponent;
+    private PlayerInformationService playerInformationService;
 
     @Autowired
-    public QuestController (QuestService questService, KnightService knightService, TimeComponent timeComponent) {
+    public QuestController (QuestService questService, KnightService knightService, PlayerInformationService playerInformationService) {
         this.questService = questService;
         this.knightService = knightService;
-        this.timeComponent = timeComponent;
+        this.playerInformationService = playerInformationService;
 
     }
 
-    @RequestMapping("/assignQuest")
+    @RequestMapping("/questList")
     public String getAvailableQuests (@RequestParam("knightId") int id, Model model) {
         Knight knight = knightService.getKnight(id);
-        questService.createQuest();
-        List<Quest> availableQuests = questService.getNotStartedQuests();
+        if (playerInformationService.isItCurrentPlayer(knight.getPlayerInformation())) {
+            List<Quest> availableQuests = questService.getNotStartedQuests();
 
-        if (availableQuests.isEmpty()) {
-            System.out.println("No quests available");
+            model.addAttribute("knight", knight);
+            model.addAttribute("availableQuests", availableQuests);
+            return "assignQuest";
+        }
+        else {
             return "redirect:/knights";
         }
-
-        model.addAttribute("knight", knight);
-        model.addAttribute("availableQuests", availableQuests);
-        model.addAttribute("timecomponent", timeComponent);
-        return "assignQuest";
     }
 
-    @RequestMapping(value = "/assignQuest", method = RequestMethod.POST)
-    public String assignQuest (int knightId, int questId) {
-        System.out.println("Rycerz: " + knightId + "Quest: " + questId);
+    @RequestMapping(value = "/assignQuest")
+    public String assignQuest (@RequestParam("knightId") int knightId, @RequestParam("questId") int questId) {
         knightService.assignQuest(knightId, questId);
         return "redirect:/knights";
+    }
+
+    @RequestMapping(value = "/refreshQuests", method = RequestMethod.POST)
+    public String refreshQuests (int knightId) {
+        questService.deleteNotStartedQuests();
+        int freeKnightCount = knightService.getFreeKnights().size();
+        questService.createQuestsForFreeKnights(freeKnightCount);
+        return "redirect:/questList?knightId=" + knightId;
+
+
     }
 
     @RequestMapping(value = "/checkQuests")

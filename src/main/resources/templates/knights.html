@@ -10,6 +10,8 @@
 </head>
 <body>
 	<div class="backgroundDiv" align="center">
+		<i>Zalogowany jako: </i><b th:text="${playerinformation.username}"></b>
+		<br/>
 		<a th:href="@{/checkQuests}"><button>Aktualizuj stan</button></a>
 		<p th:text="'Złoto: ' + ${playerinformation.gold}"/>
 		<table>
@@ -27,7 +29,7 @@
 				<td th:text="${knight.name}"/>
 				<td th:text="${knight.level}"/>
 				<td>
-					<span th:if="${knight.quest == null}">Brak zadania <a th:href="@{/assignQuest(knightId=${knight.id})}">(przydziel)</a></span>
+					<span th:if="${knight.quest == null}">Brak zadania <a th:href="@{/questList(knightId=${knight.id})}">(przydziel)</a></span>
 					<span th:if="${knight.quest != null}" th:text="${knight.quest.questTemplate}"/>
 				</td>
 				<td><a th:href="@{'/shop/' + ${knight.id}}">Kup przedmioty</a></td>
@@ -37,7 +39,7 @@
 			</tbody>
 		</table>
 			<a href="/newknight"><button>Wyszkol nowego rycerza</button></a>
-		<a href="/login?logout"><button>Wyloguj</button></a> <b th:text="'(' + ${playerinformation.username} + ')'"></b>
+		<a href="/login?logout"><button>Wyloguj</button></a>
 	</div>
 
 </body>

@@ -56,13 +56,6 @@ public class SecurityConfigAuthenticatedUserTest {
                     .andExpect(status().isOk());
         }
 
-        @Test
-        public void requestFromUserShouldBeRejected () throws Exception {
-            mockMvc.perform(
-                    get("/h2-console")
-                            .with(user(playerInformation.getUsername()).authorities(() -> "USER")))
-                    .andExpect(status().isForbidden());
-        }
 
 
     }

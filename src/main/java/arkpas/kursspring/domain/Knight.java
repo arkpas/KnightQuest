@@ -10,6 +10,8 @@ import java.util.Set;
 public class Knight {
 
 	//fields
+	@Transient
+	public static final int[] EXP_TABLE = {0, 5, 10, 20, 40, 100};
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -25,6 +27,8 @@ public class Knight {
 	private int age;
 
 	private int level = 1;
+	private int experience = 0;
+	private int experienceRequired = EXP_TABLE[level];
 
 	@OneToOne
 	private Quest quest;
@@ -52,6 +56,12 @@ public class Knight {
 	public int getAge () { return age; }
 	public Quest getQuest () { return quest; }
 	public int getLevel () { return level; }
+	public int getExperience() {
+		return experience;
+	}
+	public int getExperienceRequired() {
+		return experienceRequired;
+	}
 	public Set<Equipment> getEquipmentSet () { return equipmentSet; }
 	public PlayerInformation getPlayerInformation() {
 		return playerInformation;
@@ -63,6 +73,12 @@ public class Knight {
 	public void setName (String name) { this.name = name; }
 	public void setAge (int age) { this.age = age; }
 	public void setLevel (int level) { this.level = level; }
+	public void setExperience(int experience) {
+		this.experience = experience;
+	}
+	public void setExperienceRequired(int experienceRequired) {
+		this.experienceRequired = experienceRequired;
+	}
 	public void setEquipmentSet(Set<Equipment> equipmentSet) {
 		this.equipmentSet = equipmentSet;
 	}
@@ -83,6 +99,15 @@ public class Knight {
 
 	public void removeQuest () {
 		quest = null;
+	}
+
+	public void addExperience (int expAmount) {
+		this.experience += expAmount;
+		while (experience >= experienceRequired && level < EXP_TABLE.length - 1) {	//checking if knight isnt max level already, max level is defined by size of exp table - 1
+			level++;
+			experience -= experienceRequired;
+			experienceRequired = EXP_TABLE[level];
+		}
 	}
 
 	@Override

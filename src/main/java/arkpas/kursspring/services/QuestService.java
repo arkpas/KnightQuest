@@ -1,9 +1,8 @@
 package arkpas.kursspring.services;
 
-import arkpas.kursspring.domain.Knight;
 import arkpas.kursspring.domain.PlayerInformation;
 import arkpas.kursspring.domain.Quest;
-import arkpas.kursspring.domain.repositories.KnightRepository;
+import arkpas.kursspring.domain.QuestTemplate;
 import arkpas.kursspring.domain.repositories.QuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +25,31 @@ public class QuestService {
 		this.playerInformationService = playerInformationService;
 	}
 
+
 	public void createQuest () {
 		PlayerInformation playerInformation = playerInformationService.getPlayer();
-		questRepository.createQuest(playerInformation);
+		List<QuestTemplate> questTemplates = questRepository.getQuestTemplates();
+		int randomNumber = rand.nextInt(questTemplates.size());
+		questRepository.createQuest(playerInformation, questTemplates.get(randomNumber));
 	}
+
 	public List<Quest> getNotStartedQuests () {
 		PlayerInformation playerInformation = playerInformationService.getPlayer();
 		return questRepository.getQuests(playerInformation).stream().filter(quest -> !quest.isStarted()).collect(Collectors.toList());
+	}
+	public void deleteNotStartedQuests () {
+		List<Quest> notStartedQuests = this.getNotStartedQuests();
+		for (Quest q : notStartedQuests) {
+			this.deleteQuest(q);
+		}
+	}
+
+
+	public void createQuestsForFreeKnights (int freeKnightsCount) {
+		int newQuestsCount = freeKnightsCount * 2;
+		for (int i=0; i < newQuestsCount; i++) {
+			createQuest();
+		}
 	}
 
 	public Quest getQuest (int id) {

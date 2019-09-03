@@ -10,19 +10,33 @@
 </head>
 <body>
 <div class="backgroundDiv" align="center">
-    <p th:text="${timecomponent.time}"/>
-    <div class="form">
-        <form th:action="@{/assignQuest}" th:method="post">
-            <input type="hidden" th:value="${knight.id}" name="knightId"/>
-            <select name="questId">
-                <option th:each="quest : ${availableQuests}"
-                        th:value="${quest.id}"
-                        th:text="${quest.questTemplate.description}"
-                ></option>
-            </select>
-            <button type="submit">Przydziel zadanie</button>
-        </form>
-    </div>
+    <table>
+        <thead>
+        <tr>
+            <td>Opis</td>
+            <td>Złoto</td>
+            <td>Doświadczenie</td>
+            <td>Czas trwania</td>
+            <td></td>
+        </tr>
+        </thead>
+        <tbody th:each="quest : ${availableQuests}">
+        <tr th:class="'questRow' + ${quest.questTemplate.rarity}">
+            <td th:class="'quest' + ${quest.questTemplate.rarity}" th:text="${quest.questTemplate.description}"/>
+            <td th:class="'quest' + ${quest.questTemplate.rarity}" th:text="${quest.questTemplate.goldReward}"/>
+            <td th:class="'quest' + ${quest.questTemplate.rarity}" th:text="${quest.questTemplate.expReward}"/>
+            <td th:class="'quest' + ${quest.questTemplate.rarity}" th:text="${quest.questTemplate.length}"/>
+            <td th:class="'quest' + ${quest.questTemplate.rarity}">
+                <a th:href="@{/assignQuest(knightId=${knight.id}, questId=${quest.id})}"><button type="button">Ruszaj!</button></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/refreshQuests}" th:method="post">
+        <input type="hidden" th:value="${knight.id}" name="knightId"/>
+        <button type="submit">Szukaj nowych zadań</button>
+    </form>
+    <a th:href="@{/knights}"><button type="button">Powrót</button></a>
 </div>
 </body>
 </html>

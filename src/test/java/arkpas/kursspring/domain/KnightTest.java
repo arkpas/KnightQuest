@@ -57,4 +57,15 @@ public class KnightTest {
 
     }
 
+    @Test
+    public void knightShouldGainOneLevel () {
+        Knight knight = new Knight();
+
+        knight.addExperience(Knight.EXP_TABLE[1]);
+        assertEquals(2, knight.getLevel());
+        assertEquals(0, knight.getExperience());
+        assertEquals(Knight.EXP_TABLE[2], knight.getExperienceRequired());
+
+    }
+
 }
