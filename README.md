@@ -1,10 +1,9 @@
 # KnightQuest
 
-![alt text](https://github.com/arkpas/KnightQuest/blob/master/screenshots/knights.png)
+![alt text](https://github.com/arkpas/KnightQuest/blob/master/screenshots/quests.png)
 
 Web application about knights, princesses and dragons. Create your knights, assign them quests, collect gold and buy new equipement for your heroes! 
 
-This project was created thanks to Kurs Spring Framework od podstaw (strefakursow.pl). Core features are shown in mentioned course, additional funtions are added by myself (i.e. shop system).
 
 ## Used technologies/frameworks/libraries/languages
 Java 8, JavaFX, CSS, HTML, Spring, Thymeleaf, Maven, Hibernate
